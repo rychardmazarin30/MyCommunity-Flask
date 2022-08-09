@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+    <div class="container">
+        <h1 style="text-align: center;">Usuários</h1>
+        {% for user in users %}
+            <strong>{{user}}</strong>
+            <hr>
+        {% endfor %}
+    </div>
+
+{% endblock %}
