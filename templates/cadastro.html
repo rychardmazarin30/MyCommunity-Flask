@@ -46,8 +46,8 @@
                         {{ form_createAccount.confirm_password.label(class="form-label", for="typePasswordX")}}
                       </div>
                     </form>
-      
-                    <button class="btn btn-outline-light btn-lg px-5 mb-3" type="submit"><strong>Cadastrar-se</strong></button>
+  
+                    {{ form_createAccount.submit_button_registerAccount(class="btn btn-outline-light btn-lg px-5 mb-3 fw-bold")}}
 
                     <div>
                       <p class="mb-0">Já tem uma conta? <a href="{{ url_for('login')}}" class="text-white-50 fw-bold">Login</a>
