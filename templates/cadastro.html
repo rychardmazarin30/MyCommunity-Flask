@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
+
     <style>
         .gradient-custom {
         /* fallback for old browsers */
@@ -25,29 +26,69 @@
                     <h2 class="fw-bold mb-2 text-uppercase">Criar Conta</h2>
                     <p class="text-white-50 mb-5">Insira seus Dados abaixo!</p>
 
-                    <form method="post" action="">
-                      <div class="form-outline form-white mb-4">
-                        {{ form_createAccount.username(class="form-control form-control-lg", placeholder="Usuário") }}
-                        {{ form_createAccount.username.label(class="form-label",for="typeEmailX") }}
-                      </div>
-  
-                      <div class="form-outline form-white mb-4">
-                        {{ form_createAccount.email(class="form-control form-control-lg", placeholder="name@example.com") }}
-                        {{ form_createAccount.email.label(class="form-label", for="typeEmailX") }}
-                      </div>
-  
-                      <div class="form-outline form-white mb-4">
-                        {{ form_createAccount.password(class="form-control form-control-lg", placeholder="Senha") }}
-                        {{ form_createAccount.password.label(class="form-label", for="typePasswordX") }}
-                      </div>
-        
-                      <div class="form-outline form-white mb-4">
-                        {{ form_createAccount.confirm_password(class="form-control form-control-lg", placeholder="Confirmar Senha")}}
-                        {{ form_createAccount.confirm_password.label(class="form-label", for="typePasswordX")}}
-                      </div>
+                    <form method="POST" action="">
+                      {{ form_createAccount.csrf_token }}
+                      <fieldset>
+                        <div class="form-outline form-white mb-4">
+                          {% if form_createAccount.username.errors %}
+                            {{ form_createAccount.username(class="form-control form-control-lg is-invalid", placeholder="Usuário") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Nome de Usuário Inválido.</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_createAccount.username(class="form-control form-control-lg", placeholder="Usuário") }}
+                          {% endif %}
+                          {{ form_createAccount.username.label(class="form-label",for="typeusernameX") }}
+                        </div>
+    
+                        <div class="form-outline form-white mb-4">
+                          {% if form_createAccount.email.errors %}
+                            {{ form_createAccount.email(class="form-control form-control-lg is-invalid", placeholder="name@example.com") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Endereço de E-mail Inválido.</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_createAccount.email(class="form-control form-control-lg", placeholder="name@example.com") }}
+                          {% endif %}
+                          {{ form_createAccount.email.label(class="form-label", for="typeEmailX") }}
+                        </div>
+    
+                        <div class="form-outline form-white mb-4">
+                          {% if form_createAccount.password.errors %}
+                            {{ form_createAccount.password(class="form-control form-control-lg is-invalid", placeholder="Senha") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Senha Inválida.</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_createAccount.password(class="form-control form-control-lg", placeholder="Senha") }}
+                          {% endif %}
+                          {{ form_createAccount.password.label(class="form-label", for="typePasswordX") }}
+                        </div>
+          
+                        <div class="form-outline form-white mb-4">
+                          {% if form_createAccount.confirm_password.errors %}
+                            {{ form_createAccount.confirm_password(class="form-control form-control-lg is-invalid", placeholder="Confirmar Senha") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>O campo deve ser igual a senha.</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_createAccount.confirm_password(class="form-control form-control-lg", placeholder="Confirmar Senha") }}
+                          {% endif %}
+                          {{ form_createAccount.confirm_password.label(class="form-label", for="typePasswordX")}}
+                        </div>
+                      </fieldset>
+
+                      {{ form_createAccount.submit_button_registerAccount(class="btn btn-outline-light btn-lg px-5 mb-4 fw-bold")}}
+
                     </form>
-  
-                    {{ form_createAccount.submit_button_registerAccount(class="btn btn-outline-light btn-lg px-5 mb-3 fw-bold")}}
 
                     <div>
                       <p class="mb-0">Já tem uma conta? <a href="{{ url_for('login')}}" class="text-white-50 fw-bold">Login</a>
