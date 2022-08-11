@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
+
     <style>
         .gradient-custom {
         /* fallback for old browsers */
@@ -25,22 +26,45 @@
                     <h2 class="fw-bold mb-2 text-uppercase">Faça Seu Login</h2>
                     <p class="text-white-50 mb-5">Por favor, digite seu login e senha!</p>
 
-                    <form method="post" vaction="">
-                      <div class="form-outline form-white mb-4">
-                        {{ form_login.email(class="form-control form-control-lg", placeholder="name@example.com") }}
-                        {{ form_login.email.label(class="form-label", for="typeEmailX")}}
-                      </div>
-        
-                      <div class="form-outline form-white mb-2">
-                        {{ form_login.senha(class="form-control form-control-lg", placeholder="Senha") }}
-                        {{ form_login.senha.label(class="form-label", for="typePasswordX") }}
-                      </div>
-                    </form>
-        
-                    <p class="small mb-3 pb-lg-2"><a class="text-white-50" href="#!">Esqueceu a senha?</a></p>
+                    <form method="POST" action="">
+                      {{ form_login.csrf_token }}
+
+                      <fieldset>
+                        <div class="form-outline form-white mb-4">
+                          {% if form_login.email.errors %}
+                            {{ form_login.email(class="form-control form-control-lg is-invalid", placeholder="name@example.com") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Endereço de E-mail Inválido</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_login.email(class="form-control form-control-lg", placeholder="name@example.com") }}
+                          {% endif %}
+                          {{ form_login.email.label(class="form-label", for="typeEmailX")}}
+                        </div>
+          
+                        <div class="form-outline form-white mb-2">
+                          {% if form_login.senha.errors %}
+                            {{ form_login.senha(class="form-control form-control-lg is-invalid", placeholder="Senha") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Senha Invalida</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_login.senha(class="form-control form-control-lg", placeholder="Senha") }}
+                          {% endif %}
+                          {{ form_login.senha.label(class="form-label", for="typePasswordX") }}
+                        </div>
+                      </fieldset>
+                      
+                      <p class="small mb-3 pb-lg-2"><a class="text-white-50" href="#!">Esqueceu a senha?</a></p>
     
-                    {{ form_login.submit_button_login(class="btn btn-outline-light btn-lg px-5 mb-3 fw-bold") }}
-                    
+                      {{ form_login.submit_button_login(class="btn btn-outline-light btn-lg px-5 mb-4 fw-bold") }}
+
+                    </form>
+    
                     <div>
                       <p class="mb-0">Não tem uma conta? <a href="{{ url_for('cadastro') }}" class="text-white-50 fw-bold">Cadastre-se</a>
                       </p>
