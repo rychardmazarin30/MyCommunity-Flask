@@ -1,9 +1,12 @@
+# Formulários do site
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class FormCriarConta(FlaskForm):
     
+    nome = StringField("Nome", validators=[DataRequired(), ])
+    sobrenome = StringField("Sobrenome", validators=[DataRequired(), ])
     username = StringField("Nome de Usuário", validators=[DataRequired(), ])
     email = StringField("E-mail", validators=[DataRequired(), Email()])
     password = PasswordField("Senha", validators=[DataRequired(), Length(8, 20)])

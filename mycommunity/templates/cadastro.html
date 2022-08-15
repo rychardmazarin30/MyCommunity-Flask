@@ -30,6 +30,32 @@
                       {{ form_createAccount.csrf_token }}
                       <fieldset>
                         <div class="form-outline form-white mb-4">
+                          {% if form_createAccount.nome.errors %}
+                            {{ form_createAccount.nome(class="form-control form-control-lg is-invalid", placeholder="Nome") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Nome Inválido.</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_createAccount.nome(class="form-control form-control-lg", placeholder="Nome") }}
+                          {% endif %}
+                          {{ form_createAccount.nome.label(class="form-label",for="typeusernameX") }}
+                        </div>
+                        <div class="form-outline form-white mb-4">
+                          {% if form_createAccount.sobrenome.errors %}
+                            {{ form_createAccount.sobrenome(class="form-control form-control-lg is-invalid", placeholder="Usuário") }}
+                            
+                            <div class="invalid-feedback">
+                              <p>Nome de Usuário Inválido.</p>
+                            </div>
+                            
+                          {% else %}
+                            {{ form_createAccount.sobrenome(class="form-control form-control-lg", placeholder="Sobrenome") }}
+                          {% endif %}
+                          {{ form_createAccount.sobrenome.label(class="form-label",for="typeusernameX") }}
+                        </div>
+                        <div class="form-outline form-white mb-4">
                           {% if form_createAccount.username.errors %}
                             {{ form_createAccount.username(class="form-control form-control-lg is-invalid", placeholder="Usuário") }}
                             
