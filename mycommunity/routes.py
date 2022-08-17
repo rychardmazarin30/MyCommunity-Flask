@@ -3,16 +3,21 @@ from flask import Flask, render_template, url_for, request, flash, redirect
 from mycommunity import app, database
 from mycommunity.forms import FormCriarConta, FormLogin
 from mycommunity.models import Usuario, Post
+import bcrypt
+from flask_login import login_user
 
 users = Usuario.query.all()
+
 
 @app.route("/")
 def home():
     return render_template("home.html")
 
+
 @app.route("/usuarios")
 def usuarios():
     return render_template("usuarios.html", users=users)
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -21,20 +26,19 @@ def login():
     if form_login.validate_on_submit() and 'submit_button_login' in request.form:
         email = form_login.email.data
         senha = form_login.senha.data
-        
+        senha = bytes(senha, 'utf-8')        
         global usuario
         usuario = Usuario.query.filter_by(email=email).first()
         
-        if usuario:
-            if senha == usuario.senha:
-                flash("Login Efetuado com Sucesso!", 'alert-success')
-                return redirect(url_for('welcome'))
-            else:
-                flash("Por favor, Verifique suas Informações e Tente Novamente.", 'alert-danger')
+        if usuario and bcrypt.checkpw(senha, usuario.senha):
+            login_user(usuario)
+            flash("Login Efetuado com Sucesso!", 'alert-success')
+            return redirect(url_for('welcome'))
         else:
             flash("Por favor, Verifique suas Informações e Tente Novamente.", 'alert-danger')
                     
     return render_template("login.html", form_login=form_login)
+
 
 @app.route("/cadastro", methods=["GET", "POST"])
 def cadastro():
@@ -42,8 +46,14 @@ def cadastro():
     
     if form_createAccount.validate_on_submit() and 'submit_button_registerAccount' in request.form:
         
+        # Criptografando senha usuário
+        pw = form_createAccount.password.data
+        pw = bytes(pw, 'utf-8')
+        salt = bcrypt.gensalt(8)
+        
+        senha_cript = bcrypt.hashpw(pw, salt)
         # Cadastrando o usuário no banco de dados 
-        usuario = Usuario(nome=form_createAccount.nome.data, sobrenome=form_createAccount.sobrenome.data, username=form_createAccount.username.data, email=form_createAccount.email.data, senha=form_createAccount.password.data)
+        usuario = Usuario(nome=form_createAccount.nome.data, sobrenome=form_createAccount.sobrenome.data, username=form_createAccount.username.data, email=form_createAccount.email.data, senha=senha_cript)
         database.session.add(usuario)
         database.session.commit()
         
@@ -51,6 +61,7 @@ def cadastro():
         return redirect(url_for('home'))
         
     return render_template("cadastro.html", form_createAccount=form_createAccount)
+
 
 @app.route("/welcome")
 def welcome():

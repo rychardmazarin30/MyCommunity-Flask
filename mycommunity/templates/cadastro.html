@@ -5,13 +5,13 @@
     <style>
         .gradient-custom {
         /* fallback for old browsers */
-        background: #6a11cb;
+        background: rgb(63, 0, 130);
 
         /* Chrome 10-25, Safari 5.1-6 */
-        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+        background: -webkit-linear-gradient(to right, rgb(63, 0, 130), rgb(0, 53, 144));
 
         /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+        background: linear-gradient(to right, rgb(63, 0, 130), rgb(0, 53, 144));
         }
     </style>
     <section class="vh-100 gradient-custom">
@@ -34,7 +34,9 @@
                             {{ form_createAccount.nome(class="form-control form-control-lg is-invalid", placeholder="Nome") }}
                             
                             <div class="invalid-feedback">
-                              <p>Nome Inválido.</p>
+                              {% for erro in form_createAccount.nome.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
@@ -47,7 +49,9 @@
                             {{ form_createAccount.sobrenome(class="form-control form-control-lg is-invalid", placeholder="Usuário") }}
                             
                             <div class="invalid-feedback">
-                              <p>Nome de Usuário Inválido.</p>
+                              {% for erro in form_createAccount.sobrenome.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
@@ -60,7 +64,9 @@
                             {{ form_createAccount.username(class="form-control form-control-lg is-invalid", placeholder="Usuário") }}
                             
                             <div class="invalid-feedback">
-                              <p>Nome de Usuário Inválido.</p>
+                              {% for erro in form_createAccount.username.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
@@ -74,7 +80,9 @@
                             {{ form_createAccount.email(class="form-control form-control-lg is-invalid", placeholder="name@example.com") }}
                             
                             <div class="invalid-feedback">
-                              <p>Endereço de E-mail Inválido.</p>
+                              {% for erro in form_createAccount.email.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
@@ -88,7 +96,9 @@
                             {{ form_createAccount.password(class="form-control form-control-lg is-invalid", placeholder="Senha") }}
                             
                             <div class="invalid-feedback">
-                              <p>Senha Inválida.</p>
+                              {% for erro in form_createAccount.password.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
@@ -102,7 +112,9 @@
                             {{ form_createAccount.confirm_password(class="form-control form-control-lg is-invalid", placeholder="Confirmar Senha") }}
                             
                             <div class="invalid-feedback">
-                              <p>O campo deve ser igual a senha.</p>
+                              {% for erro in form_createAccount.confirm_password.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}

@@ -3,16 +3,16 @@
 {% block body %}
 
     <style>
-        .gradient-custom {
-        /* fallback for old browsers */
-        background: #6a11cb;
+      .gradient-custom {
+      /* fallback for old browsers */
+      background: rgb(63, 0, 130);
 
-        /* Chrome 10-25, Safari 5.1-6 */
-        background: -webkit-linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+      /* Chrome 10-25, Safari 5.1-6 */
+      background: -webkit-linear-gradient(to right, rgb(63, 0, 130), rgb(0, 53, 144));
 
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-        background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
-        }
+      /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      background: linear-gradient(to right, rgb(63, 0, 130), rgb(0, 53, 144));
+      }
     </style>
     <section class="vh-100 gradient-custom">
         <div class="container py-5 h-90">
@@ -35,7 +35,9 @@
                             {{ form_login.email(class="form-control form-control-lg is-invalid", placeholder="name@example.com") }}
                             
                             <div class="invalid-feedback">
-                              <p>Endereço de E-mail Inválido</p>
+                              {% for erro in form_login.email.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
@@ -49,7 +51,9 @@
                             {{ form_login.senha(class="form-control form-control-lg is-invalid", placeholder="Senha") }}
                             
                             <div class="invalid-feedback">
-                              <p>Senha Invalida</p>
+                              {% for erro in form_login.senha.errors %}
+                                {{ erro }}
+                              {% endfor %}
                             </div>
                             
                           {% else %}
