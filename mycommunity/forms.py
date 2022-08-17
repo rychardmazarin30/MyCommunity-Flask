@@ -17,12 +17,16 @@ class FormCriarConta(FlaskForm):
     
     # Necessário função chamar validate_ pois só assim o FlaskForm(), consegue entender ela como um validator.
     # Essa função faz com que cada usuario seja único, não deixando ter e-mails e nem usernames repetidos.
-    def validate_email_username(self, email, username):
+    def validate_email(self, email):
         usuario_email = Usuario.query.filter_by(email=email.data).first()
-        usuario_username = Usuario.query.filter_by(username=username.data).first()
         if usuario_email:
             raise ValidationError('E-mail already registered.')
-        elif usuario_username:
+        else:
+            pass
+        
+    def validate_username(self, username):
+        usuario_username = Usuario.query.filter_by(username=username.data).first()
+        if usuario_username:
             raise ValidationError('Username already exists.')
         else:
             pass
