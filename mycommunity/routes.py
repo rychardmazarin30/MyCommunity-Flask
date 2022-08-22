@@ -45,7 +45,7 @@ def cadastro():
         
         senha_cript = bcrypt.hashpw(pw, salt)
         # Cadastrando o usuário no banco de dados 
-        usuario = Usuario(nome=form_createAccount.nome.data, sobrenome=form_createAccount.sobrenome.data, username=form_createAccount.username.data, email=form_createAccount.email.data, senha=senha_cript)
+        usuario = Usuario(nome=form_createAccount.nome.data.capitalize(), sobrenome=form_createAccount.sobrenome.data.capitalize(), username=form_createAccount.username.data, email=form_createAccount.email.data, senha=senha_cript)
         database.session.add(usuario)
         database.session.commit()
         
