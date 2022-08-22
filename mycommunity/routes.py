@@ -9,7 +9,7 @@ from flask_login import login_user
 users = Usuario.query.all()
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
     return render_template("home.html")
 
@@ -24,19 +24,11 @@ def login():
     form_login = FormLogin()
     
     if form_login.validate_on_submit() and 'submit_button_login' in request.form:
-        email = form_login.email.data
-        senha = form_login.senha.data
-        senha = bytes(senha, 'utf-8')        
         global usuario
-        usuario = Usuario.query.filter_by(email=email).first()
-        
-        if usuario and bcrypt.checkpw(senha, usuario.senha):
-            login_user(usuario)
-            flash("Login Efetuado com Sucesso!", 'alert-success')
-            return redirect(url_for('welcome'))
-        else:
-            flash("Por favor, Verifique suas Informações e Tente Novamente.", 'alert-danger')
-                    
+        usuario = Usuario.query.filter_by(email=form_login.email.data).first()
+        flash("Login Efetuado com Sucesso!", 'alert-success')
+        return redirect(url_for('welcome'))
+
     return render_template("login.html", form_login=form_login)
 
 
