@@ -19,7 +19,7 @@ class Usuario(database.Model, UserMixin):
     senha = database.Column(database.String, nullable=False)
     foto_perfil = database.Column(database.String, default='default.jpg')
     posts = database.relationship('Post', backref='autor', lazy=True)
-    linguagens = database.Column(database.String, nullable=False, default='Não Informado')
+    tech_principal = database.Column(database.String, nullable=False, default='Não Informado')
     
     
     
