@@ -54,9 +54,25 @@ class FormLogin(FlaskForm):
         
         if user:
             if bcrypt.checkpw(senha, user.senha):
-                login_user(user)
+                pass
             else:
                 raise ValidationError("Senha Incorreta")
         else:
             pass
+        
 
+class FormEditProfile(FlaskForm):
+    
+    nome = StringField("Nome", validators=[DataRequired()])
+    sobrenome = StringField("Sobrenome", validators=[DataRequired()])    
+    username = StringField("Nome de Usuário", validators=[DataRequired()])
+    email = StringField("E-mail", validators=[DataRequired(), Email()])
+    submit_button_edit = SubmitField("Editar Perfil")
+    
+    
+class FormEditPassword(FlaskForm):
+    
+    old_password = PasswordField("Senha", validators=[DataRequired(), Length(8, 20, message="A sua senha tem que ter no mínimo 8 caracteres")])
+    new_password = PasswordField("Senha", validators=[DataRequired(), Length(8, 20, message="A sua senha tem que ter no mínimo 8 caracteres")])
+    confirm_password = PasswordField("Confirmar Senha", validators=[DataRequired(), EqualTo('new_password', message="O campo deve ser igual a senha.")])
+    submit_button_edit = SubmitField("Definir Senha")
