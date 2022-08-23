@@ -10,5 +10,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 database = SQLAlchemy(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+login_manager.login_message = 'Faça login para acessar esta página.'
+login_manager.login_message_category = 'alert-warning'
 
 from mycommunity import routes
