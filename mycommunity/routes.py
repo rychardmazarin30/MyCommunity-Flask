@@ -1,7 +1,7 @@
 # Rotas do meu site
 from flask import Flask, render_template, url_for, request, flash, redirect
 from mycommunity import app, database
-from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormEditProfile, FormEditPassword
+from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormEditProfile, FormEditPassword, FormExcludeAccount
 from mycommunity.models import Usuario
 from flask_login import login_user, logout_user, current_user, login_required
 import bcrypt
@@ -73,6 +73,17 @@ def profile():
 def edit_profile():
     form_edit = FormEditProfile()
     
+    if form_edit.validate_on_submit() and 'submit_button_edit' in request.form:
+        user = current_user
+        user.nome = form_edit.nome.data.capitalize()
+        user.sobrenome = form_edit.sobrenome.data.capitalize()
+        user.username = form_edit.username.data
+        user.email = form_edit.email.data
+        database.session.commit()
+        
+        flash("Edição de Perfil Atualizada com Sucesso!", 'alert-success')
+        return redirect(url_for('profile'))
+
     profile_photo = url_for('static', filename='profile_photos/{}'.format(current_user.foto_perfil))
     return render_template('profile_edit.html', profile_photo=profile_photo, form_edit=form_edit)
 
@@ -82,8 +93,32 @@ def edit_profile():
 def edit_password():
     form_edit_password = FormEditPassword()
     
-    profile_photo = url_for('static', filename='profile_photos/{}'.format(current_user.foto_perfil))
-    return render_template('profile_edit_password.html', profile_photo=profile_photo, form_edit_password=form_edit_password)
+    if form_edit_password.validate_on_submit() and 'submit_butto_edit_password' in request.form:
+        user = current_user
+        user.senha = form_edit_password.new_password.data
+        database.session.commit()
+        
+        flash("Senha Atualizada com Sucesso!", 'alert-success')
+        return redirect(url_for('profile'))
+    
+    return render_template('profile_edit_password.html', form_edit_password=form_edit_password)
+
+
+@app.route('/profile/edit/exclude_account', methods=["GET", "POST"])
+@login_required
+def exclude_account():
+    form_exclude = FormExcludeAccount()
+    
+    if form_exclude.validate_on_submit() and 'submit_button_exclude' in request.form:
+        user = current_user
+        database.session.delete(user)
+        database.session.commit()
+        
+        logout_user()
+        flash("Conta Excluida com sucesso!", 'alert-success')
+        return redirect(url_for('home'))
+    
+    return render_template('exclude_account.html', form_exclude=form_exclude)
 
 
 

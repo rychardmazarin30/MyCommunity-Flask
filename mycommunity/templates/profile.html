@@ -10,7 +10,7 @@
 
 {% block body %}
   <div class="container mt-5 d-flex justify-content-center">
-    <div class="card w-75 text-bg-warning p-3">
+    <div class="card w-50 text-bg-dark p-3">
       <div class="d-flex align-items-center">
         <div class="image pe-3">
           <img
@@ -21,20 +21,21 @@
         </div>
 
         <div class="ml-3 w-100">
-          <h4 class="mb-0 mt-0">{{ current_user.nome }} {{ current_user.sobrenome }}</h4>
-          <span>{{ current_user.email }}</span>
-
+          <h4 class="mb-0 mt-0">{{ current_user.nome }} {{ current_user.sobrenome }}</h4> 
+          <span>@{{ current_user.username }}</span>
           <div
             class="p-2 mt-2 bg-secondary d-flex justify-content-between rounded text-white"
           >
             <div class="d-flex flex-column">
               <span class="articles">Principais Tecnologias</span>
-              <span class="number1">{{ current_user.tech_principal }}</span>
-            </div>
-
-            <div class="d-flex flex-column">
-              <span class="rating">Posts</span>
-              <span class="number3">0</span>
+              <span class="number1">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45" height="45" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="45" height="45"/>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original-wordmark.svg" width="45" height="45"/>
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="45" height="45"/> 
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain-wordmark.svg" width="45" height="45"/> 
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain-wordmark.svg" width="45" height="45"/>
+              </span>
             </div>
           </div>
 

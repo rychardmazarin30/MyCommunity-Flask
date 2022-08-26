@@ -20,10 +20,10 @@
                         <a class="nav-link active text-bg-dark" id="home-tab" data-toggle="tab" href="{{ url_for('edit_profile') }}" role="tab" aria-controls="home" aria-selected="false">Perfil</a>
                     </li>
                 </ul>
-                <form method="POST" action="">
+                <form method="POST" action="" enctype="multipart/form-data">
                     {{ form_edit.csrf_token() }}
                     <div class="container mt-5 d-flex justify-content-center">
-                        <div class="card w-100 text-bg-warning p-3">
+                        <div class="card w-100 text-bg-dark p-3">
                           <div class="d-flex align-items-center">
                             <div class="image pe-3">
                               <img
@@ -32,28 +32,38 @@
                                 width="200"
                               />
                               <p> </p>
-                              <input type="file" class="form-control">
+                              <div class="form-group">
+                                {{ form_edit.foto_perfil(class="form-control-file") }}
+                                {% if form_edit.foto_perfil.errors %}
+                                  {% for erro in form_edit.foto_perfil.errors %}
+                                    <span class="text-danger">Extensão de arquivo não aceita, Apenas: JPG, PNG</span>
+                                  {% endfor %}
+                                {% endif %}
+                              </div>
                             </div>
                     
                             <div class="ml-3 w-100">
                               <h4 class="mb-0 mt-0">{{ current_user.nome }} {{ current_user.sobrenome }}</h4>
-                              <span>{{ current_user.email }}</span>
+                              <span>{{ current_user.username }}</span>
                     
                               <div
                                 class="p-2 mt-2 bg-secondary d-flex justify-content-between rounded text-white"
                               >
                                 <div class="d-flex flex-column">
-                                  <span class="articles">Principais Tecnologias</span>
-                                  <span class="number1">{{ current_user.tech_principal }}</span>
-                                </div>
-                    
-                                <div class="d-flex flex-column">
-                                  <span class="rating">Posts</span>
-                                  <span class="number3">0</span>
+                                  <span class="articles fw-bold m-1">Principais Tecnologias</span>
+                                  <span class="number1">
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45" height="45" />
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="45" height="45"/>
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original-wordmark.svg" width="45" height="45"/>
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="45" height="45"/> 
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain-wordmark.svg" width="45" height="45"/> 
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain-wordmark.svg" width="45" height="45"/>
+                                  </span>
                                 </div>
                               </div>
                               <div class="button mt-2 d-flex flex-row align-items-center">
-                                <a class="btn btn-sm btn-danger w-100 m-1" href="{{ url_for('edit_password') }}">Trocar de Senha</a>
+                                <a class="btn btn-sm btn-warning w-100 m-1" href="{{ url_for('edit_password') }}">Trocar de Senha</a>
+                                <a class="btn btn-sm btn-outline-danger w-100 m-1" href="{{ url_for('exclude_account') }}">Excluir Conta</a>
                               </div>
                             </div>
                           </div>
@@ -63,28 +73,72 @@
                     <div class="form-row" style="align-items: center;">
                         <div class="row g-3">
                             <div class="form-group col-md-6">
-                                {{ form_edit.nome.label(for="firstname", style="color: #fff;") }}
+                              {{ form_edit.nome.label(class="form-label", style="color: #fff;") }}
+                              {% if form_edit.nome.errors %}
+                              {{ form_edit.nome(class="form-control is-invalid", placeholder="Nome") }}
+                              
+                              <div class="invalid-feedback">
+                                {% for erro in form_edit.nome.errors %}
+                                  {{ erro }}
+                                {% endfor %}
+                              </div>
+                              
+                              {% else %}
                                 {{ form_edit.nome(class="form-control", placeholder="Nome") }}
+                              {% endif %}
                             </div>
                             <div class="form-group col-md-6">
-                                {{ form_edit.sobrenome.label(for="lastname", style="color: #fff;") }}
+                              {{ form_edit.sobrenome.label(class="form-label", style="color: #fff;") }}
+                              {% if form_edit.sobrenome.errors %}
+                              {{ form_edit.sobrenome(class="form-control is-invalid", placeholder="Sobrenome") }}
+                              
+                              <div class="invalid-feedback">
+                                {% for erro in form_edit.sobrenome.errors %}
+                                  {{ erro }}
+                                {% endfor %}
+                              </div>
+                              
+                              {% else %}
                                 {{ form_edit.sobrenome(class="form-control", placeholder="Sobrenome") }}
+                              {% endif %}
                             </div>
                         </div>
                         <div class="row g-3">
                             <div class="form-group col-md-6">
-                                {{ form_edit.username.label(for="typeusernameX", style="color: #fff;") }}
-                                {{ form_edit.username(class="form-control", placeholder="Nome de Usuário") }}
+                              {{ form_edit.username.label(class="form-label", style="color: #fff;") }}
+                              {% if form_edit.username.errors %}
+                              {{ form_edit.username(class="form-control is-invalid", placeholder="Username") }}
+                              
+                              <div class="invalid-feedback">
+                                {% for erro in form_edit.username.errors %}
+                                  {{ erro }}
+                                {% endfor %}
+                              </div>
+                              
+                              {% else %}
+                                {{ form_edit.username(class="form-control", placeholder="Username") }}
+                              {% endif %}
                             </div>
                             <div class="form-group col-md-6">
-                                {{ form_edit.email.label(for="inputEmail4", style="color: #fff;") }}
-                                {{ form_edit.email(class="form-control", placeholder="name@example.com") }}
+                              {{ form_edit.email.label(class="form-label", style="color: #fff;") }}
+                              {% if form_edit.email.errors %}
+                              {{ form_edit.email(class="form-control is-invalid", placeholder="E-mail") }}
+                              
+                              <div class="invalid-feedback">
+                                {% for erro in form_edit.email.errors %}
+                                  {{ erro }}
+                                {% endfor %}
+                              </div>
+                              
+                              {% else %}
+                                {{ form_edit.email(class="form-control", placeholder="E-mail") }}
+                              {% endif %}
                             </div>
                         </div>
                     </div>
                     <hr class="my-4" />
-                    {{ form_edit.submit_button_edit(class="btn btn-warning") }}
-                    <a class="btn btn-danger" href="{{ url_for('profile') }}">Cancelar</a>
+                    {{ form_edit.submit_button_edit(class="btn btn-outline-warning") }}
+                    <a class="btn btn-outline-danger" href="{{ url_for('profile') }}">Cancelar</a>
                 </form>
             </div>
         </div>

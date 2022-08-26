@@ -1,8 +1,9 @@
 # Formulários do site
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from flask_login import login_user
+from flask_login import login_user, logout_user, current_user, login_required
 from mycommunity.models import Usuario
 import bcrypt
 
@@ -67,12 +68,68 @@ class FormEditProfile(FlaskForm):
     sobrenome = StringField("Sobrenome", validators=[DataRequired()])    
     username = StringField("Nome de Usuário", validators=[DataRequired()])
     email = StringField("E-mail", validators=[DataRequired(), Email()])
+    foto_perfil = FileField('Atualizar Foto de Perfil', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     submit_button_edit = SubmitField("Editar Perfil")
     
+    def validate_email(self, email):
+        usuario_email = Usuario.query.filter_by(email=email.data).first()
+        if usuario_email:
+            if usuario_email.email == current_user.email:
+                pass
+            else:
+                raise ValidationError('E-mail já cadastrado.')
+        else:
+            pass
+        
+    def validate_username(self, username):
+        usuario_username = Usuario.query.filter_by(username=username.data).first()
+        if usuario_username:
+            if usuario_username.username == current_user.username:
+                pass
+            else:
+                raise ValidationError('Nome de Usuário já cadastrado.')
+        else:
+            pass 
+        
     
 class FormEditPassword(FlaskForm):
     
     old_password = PasswordField("Senha", validators=[DataRequired(), Length(8, 20, message="A sua senha tem que ter no mínimo 8 caracteres")])
     new_password = PasswordField("Senha", validators=[DataRequired(), Length(8, 20, message="A sua senha tem que ter no mínimo 8 caracteres")])
     confirm_password = PasswordField("Confirmar Senha", validators=[DataRequired(), EqualTo('new_password', message="O campo deve ser igual a senha.")])
-    submit_button_edit = SubmitField("Definir Senha")
+    submit_button_edit_password = SubmitField("Definir Senha")
+    
+    def validate_old_password(self, old_password):
+        senha_velha = old_password.data
+        senha_velha = bytes(senha_velha, 'utf-8')
+        
+        if bcrypt.checkpw(senha_velha, current_user.senha):
+            pass
+        else:
+            raise ValidationError("Senha Antiga Incorreta")
+    
+
+class FormExcludeAccount(FlaskForm):
+    
+    email = StringField("E-mail", validators=[DataRequired(), Email()])
+    senha = PasswordField("Senha", validators=[DataRequired(), Length(8, 20)])
+    submit_button_exclude = SubmitField("Excluir Conta")
+    
+    def validate_email(self, email):
+        
+        if email.data == current_user.email:
+            pass
+        else:
+            raise ValidationError("E-mail Incorreto.")
+    
+    def validate_senha(self, senha):
+        senha = senha.data
+        senha = bytes(senha, 'utf-8')
+        
+        if bcrypt.checkpw(senha, current_user.senha):
+            pass
+        else:
+            raise ValidationError("Senha Incorreta.")
+        
+            
+   
