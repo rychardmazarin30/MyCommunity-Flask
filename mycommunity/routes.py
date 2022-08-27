@@ -5,6 +5,9 @@ from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormE
 from mycommunity.models import Usuario
 from flask_login import login_user, logout_user, current_user, login_required
 import bcrypt
+import secrets
+import os
+from PIL import Image
 
 
 @app.route("/", methods=["GET"])
@@ -67,7 +70,25 @@ def profile():
     profile_photo = url_for('static', filename='profile_photos/{}'.format(current_user.foto_perfil))
     return render_template("profile.html", profile_photo=profile_photo)
 
-
+def salvar_imagem(img):
+    # Adicionar código a nome do arquivo para não haver conflito no db com equalNames
+    codigo = secrets.token_hex(8)
+    # seprando nome do arquivo da extensão
+    nome, extensao = os.path.splitext(img.filename)
+    # Juntando tudo: nome, codigo e extensão
+    arquivo = nome + codigo + extensao
+    # definindo caminho completo de onde sera salvo o arquivo da imagem
+    complete_way = os.path.join(app.root_path, 'static/profile_photos', arquivo)
+    
+    # tupla para definir tamanho de largura e altura da imagem
+    size = (400, 400)
+    # reduzir imagem
+    imagem_reduzida = Image.open(img)
+    imagem_reduzida.thumbnail(size)
+    # Salvar no banco de dados
+    imagem_reduzida.save(complete_way)
+    return arquivo
+    
 @app.route('/profile/edit', methods=["GET", "POST"])
 @login_required
 def edit_profile():
@@ -79,6 +100,9 @@ def edit_profile():
         user.sobrenome = form_edit.sobrenome.data.capitalize()
         user.username = form_edit.username.data
         user.email = form_edit.email.data
+        if form_edit.foto_perfil.data:
+            nome_imagem = salvar_imagem(form_edit.foto_perfil.data)
+            user.foto_perfil = nome_imagem
         database.session.commit()
         
         flash("Edição de Perfil Atualizada com Sucesso!", 'alert-success')
