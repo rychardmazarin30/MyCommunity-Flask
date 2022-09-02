@@ -24,7 +24,7 @@
                     {{ form_edit.csrf_token() }}
                     <div class="container mt-5 d-flex justify-content-center">
                         <div class="card w-100 text-bg-dark p-3">
-                          <div class="d-flex align-items-center">
+                          <div class="d-flex">
                             <div class="image pe-3">
                               <img
                                 src="{{ profile_photo }}"
@@ -36,15 +36,15 @@
                                 {{ form_edit.foto_perfil(class="form-control-file") }}
                                 {% if form_edit.foto_perfil.errors %}
                                   {% for erro in form_edit.foto_perfil.errors %}
-                                    <span class="text-danger">Extensão de arquivo não aceita, Apenas: JPG, PNG</span>
+                                    <span class="text-danger">Extensão de arquivo não aceita.</span>
                                   {% endfor %}
                                 {% endif %}
                               </div>
                             </div>
                     
-                            <div class="ml-3 w-100">
+                            <div class="w-100">
                               <h4 class="mb-0 mt-0">{{ current_user.nome }} {{ current_user.sobrenome }}</h4>
-                              <span>{{ current_user.username }}</span>
+                              <span>@{{ current_user.username }}</span>
                     
                               <div
                                 class="p-2 mt-2 bg-secondary d-flex justify-content-between rounded text-white"
