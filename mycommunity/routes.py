@@ -103,6 +103,10 @@ def edit_profile():
         if form_edit.foto_perfil.data:
             nome_imagem = salvar_imagem(form_edit.foto_perfil.data)
             user.foto_perfil = nome_imagem
+
+        if form_edit.tech_principal.data:
+            user.tech_principal = form_edit.tech_principal.data
+        
         database.session.commit()
         
         flash("Edição de Perfil Atualizada com Sucesso!", 'alert-success')

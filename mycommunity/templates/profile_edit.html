@@ -50,15 +50,39 @@
                                 class="p-2 mt-2 bg-secondary d-flex justify-content-between rounded text-white"
                               >
                                 <div class="d-flex flex-column">
-                                  <span class="articles fw-bold m-1">Principais Tecnologias</span>
+                                  <span class="articles fw-bold m-1">Principal Tecnologia</span>
                                   <span class="number1">
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45" height="45" />
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" width="45" height="45"/>
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original-wordmark.svg" width="45" height="45"/>
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" width="45" height="45"/> 
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-plain-wordmark.svg" width="45" height="45"/> 
-                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-plain-wordmark.svg" width="45" height="45"/>
-                                  </span>
+                                    {% if current_user.tech_principal == 'Python' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'JavaScript' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'Ruby' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/ruby/ruby-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'C#' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'C++' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'Swift' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/swift/swift-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'Java' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="45" height="45" /></span>
+                                    {% endif %}
+                    
+                                    {% if current_user.tech_principal == 'Go' %}
+                                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" width="45" height="45" /></span>
+                                    {% endif %}
                                 </div>
                               </div>
                               <div class="button mt-2 d-flex flex-row align-items-center">
@@ -133,6 +157,9 @@
                               {% else %}
                                 {{ form_edit.email(class="form-control", placeholder="E-mail") }}
                               {% endif %}
+                            </div>
+                            <div class="form-group col-md-6">
+                              {{ form_edit.tech_principal(class='form-select') }} 
                             </div>
                         </div>
                     </div>

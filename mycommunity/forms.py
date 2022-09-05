@@ -1,7 +1,7 @@
 # Formulários do site
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import login_user, logout_user, current_user, login_required
 from mycommunity.models import Usuario
@@ -69,10 +69,7 @@ class FormEditProfile(FlaskForm):
     username = StringField("Nome de Usuário", validators=[DataRequired()])
     email = StringField("E-mail", validators=[DataRequired(), Email(message="E-mail Inválido.")])
     foto_perfil = FileField('Atualizar Foto de Perfil', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
-    
-    tech_html = BooleanField("HTML")
-    tech_css = BooleanField('CSS')
-    tech_js = BooleanField('JavaScript')
+    tech_principal = SelectField( choices=[('Não Informado', 'Tecnologia Principal'), ('Python', 'Python'), ('JavaScript', 'JavaScript'), ('Ruby', 'Ruby'), ('C#', "C#"), ('C++', "C++"), ('Java', "Java"), ('Swift', "Swift"), ('Go', "Go")], validators=[DataRequired()])
     
     submit_button_edit = SubmitField("Editar Perfil")
     
