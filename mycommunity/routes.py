@@ -1,8 +1,8 @@
 # Rotas do meu site
 from flask import Flask, render_template, url_for, request, flash, redirect
 from mycommunity import app, database
-from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormEditProfile, FormEditPassword, FormExcludeAccount
-from mycommunity.models import Usuario
+from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormEditProfile, FormEditPassword, FormExcludeAccount, FormCreatePost
+from mycommunity.models import Usuario, Post
 from flask_login import login_user, logout_user, current_user, login_required
 import bcrypt
 import secrets
@@ -121,9 +121,14 @@ def edit_profile():
 def edit_password():
     form_edit_password = FormEditPassword()
     
-    if form_edit_password.validate_on_submit() and 'submit_butto_edit_password' in request.form:
+    if form_edit_password.validate_on_submit() and 'submit_button_edit_password' in request.form:
+        pw = form_edit_password.new_password.data
+        pw = bytes(pw, 'utf-8')
+        salt = bcrypt.gensalt(8)
+
+        senha_cript = bcrypt.hashpw(pw, salt)
         user = current_user
-        user.senha = form_edit_password.new_password.data
+        user.senha = senha_cript
         database.session.commit()
         
         flash("Senha Atualizada com Sucesso!", 'alert-success')
@@ -158,7 +163,16 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/post/create')
+@app.route('/post/create', methods=["GET", "POST"])
 @login_required
 def create_post():
-    return render_template('create_post.html')
+    form_create_post = FormCreatePost()
+    if form_create_post.validate_on_submit():
+        # Criando o Post e o inserindo no banco de dados
+        post = Post(titulo=form_create_post.title.data, corpo=form_create_post.body.data, id_usuario=current_user.id)
+        database.session.add(post)
+        database.session.commit()
+        # Redirecionando para a homepage e avisando o usuário que deu certo.
+        flash('Post Criado com Sucesso', 'alert-success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', form_create_post=form_create_post)

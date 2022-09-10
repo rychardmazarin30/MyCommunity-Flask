@@ -1,7 +1,7 @@
 # Formulários do site
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_login import login_user, logout_user, current_user, login_required
 from mycommunity.models import Usuario
@@ -132,6 +132,13 @@ class FormExcludeAccount(FlaskForm):
             pass
         else:
             raise ValidationError("Senha Incorreta.")
+        
+        
+class FormCreatePost(FlaskForm):
+    
+    title = StringField("Titulo do Post", validators=[DataRequired(), Length(5, 140)])
+    body = TextAreaField("Escreva seu Post Aqui", validators=[DataRequired()])
+    submit_button = SubmitField("Criar Post")
         
             
    
