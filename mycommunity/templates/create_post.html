@@ -16,12 +16,12 @@
                     {{ form_create_post.csrf_token() }}
                     <div class="form-group">
                         {{ form_create_post.title.label(class="form-label") }}
-                        {{ form_create_post.title(class="form-control") }}
+                        {{ form_create_post.title(class="form-control", placeholder='Título do Post') }}
                     </div>
                     <br>
                     <div class="form-group">
                         {{ form_create_post.body.label(class="form-label") }}
-                        {{ form_create_post.body(rows="5", class='form-control') }}
+                        {{ form_create_post.body(rows="5", class='form-control', placeholder='Escreva seu Post Aqui...') }}
                     </div>
                     <br>
                     
