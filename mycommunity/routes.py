@@ -12,7 +12,9 @@ from PIL import Image
 
 @app.route("/", methods=["GET"])
 def home():
-    return render_template("home.html")
+    posts = Post.query.order_by(Post.id.desc())
+    users = Usuario.query.all()
+    return render_template("home.html", posts=posts, users=users)
 
 
 @app.route("/membros")
@@ -176,3 +178,9 @@ def create_post():
         flash('Post Criado com Sucesso', 'alert-success')
         return redirect(url_for('home'))
     return render_template('create_post.html', form_create_post=form_create_post)
+
+
+@app.route('/post/<post_id>')
+def exibir_post(post_id):
+    post = Post.query.get(post_id)
+    return render_template('post.html', post=post)
