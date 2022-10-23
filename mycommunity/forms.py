@@ -69,7 +69,7 @@ class FormEditProfile(FlaskForm):
     username = StringField("Nome de Usuário", validators=[DataRequired()])
     email = StringField("E-mail", validators=[DataRequired(), Email(message="E-mail Inválido.")])
     foto_perfil = FileField('Atualizar Foto de Perfil', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
-    tech_principal = SelectField( choices=[('Não Informado', 'Tecnologia Principal'), ('Python', 'Python'), ('JavaScript', 'JavaScript'), ('Ruby', 'Ruby'), ('C#', "C#"), ('C++', "C++"), ('Java', "Java"), ('Swift', "Swift"), ('Go', "Go")], validators=[DataRequired()])
+    tech_principal = SelectField( choices=[('Não Informado', 'Tecnologia Principal'), ('Python', 'Python'), ('JavaScript', 'JavaScript'), ('PHP', 'PHP'), ('Ruby', 'Ruby'), ('C#', "C#"), ('C++', "C++"), ('Java', "Java"), ('Swift', "Swift"), ('Go', "Go")], validators=[DataRequired()])
     
     submit_button_edit = SubmitField("Editar Perfil")
     
@@ -136,7 +136,7 @@ class FormExcludeAccount(FlaskForm):
         
 class FormCreatePost(FlaskForm):
     
-    title = StringField("Titulo do Post", validators=[DataRequired(), Length(5, 140)])
+    title = StringField("Titulo do Post", validators=[DataRequired(), Length(2, 140)])
     body = TextAreaField("Descrição", validators=[DataRequired(), Length(5, 280)])
     submit_button = SubmitField("Criar Post")
         

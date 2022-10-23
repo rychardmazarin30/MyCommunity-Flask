@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <div class="text-white" style="border-radius: 1rem;">
+            <h1 >EDITAR POST</h1>
+        </div>
+    </div>
+    <div class="container text-white">
+        <div class="row">
+            
+            <div class="col-md-8 col-md-offset-2">
+                
+                <form action="" method="POST">
+                    {{ form_edit.csrf_token() }}
+                    <div class="form-group">
+                        {{ form_edit.title.label(class="form-label") }}
+                        {{ form_edit.title(class="form-control", placeholder='Título do Post') }}
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        {{ form_edit.body.label(class="form-label") }}
+                        {{ form_edit.body(rows="5", class='form-control', placeholder='Escreva seu Post Aqui...') }}
+                    </div>
+                    <br>
+                    
+                    <div class="form-group">
+                        {{ form_edit.submit_button(class="btn btn-outline-warning") }}
+                        <a class="btn btn-outline-danger" href="{{ url_for('home') }}">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+
+{% endblock %}

@@ -55,8 +55,13 @@
                     </div>
                     <div class="col-xs-12 col-sm-7 col-md-5 col-lg-8">
                         <div class="caption text-white">
+                            {% if current_user == post.autor %}
+                            <h3>{{ post.titulo }} <a class="btn btn-secondary" href="{{  url_for('edit_post') }}" role="button">Editar Post</a> <a class="btn btn-danger" href="{{  url_for('edit_post') }}" role="button">Excluir Post</a></h3> 
+                            <p> {{ post.corpo }} </p>
+                            {% else %}
                             <h3>{{ post.titulo }}</h3>
                             <p> {{ post.corpo }} </p>
+                            {% endif %}
                         </div>
                 </div>
             </article>

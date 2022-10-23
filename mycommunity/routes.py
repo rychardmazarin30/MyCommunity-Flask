@@ -184,3 +184,10 @@ def create_post():
 def exibir_post(post_id):
     post = Post.query.get(post_id)
     return render_template('post.html', post=post)
+
+
+@app.route('/post/edit', methods=["GET", "POST"])
+def edit_post():
+    form_edit = FormCreatePost()
+    
+    return render_template('edit_post.html', form_edit=form_edit)
