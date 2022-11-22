@@ -29,7 +29,7 @@ class Post(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     titulo = database.Column(database.String, nullable=False)
     corpo = database.Column(database.Text, nullable=False)
-    data_criação = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
+    data_criacao = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
     id_usuario = database.Column(database.Integer, database.ForeignKey('usuario.id'), nullable=False)
     
 # Quando suas tabelas já estiverem criadas, vá até o console do python, importe de onde estiver esse arquivo

@@ -66,7 +66,7 @@
                     </div>
                     <div class="col-xs-12 col-sm-7 col-md-5 col-lg-8">
                         <div class="caption text-white">
-                            <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}"><h3>{{ post.titulo }}</h3></a>
+                            <a style="text-decoration: none;" href="{{ url_for('exibir_post', post_id=post.id) }}"><h3>{{ post.titulo }} <small class="text-muted container">Data Criação: {{ post.data_criacao.strftime('%d/%m/%Y') }}</small></h3></a>
                             <p> {{ post.corpo }} </p>
                         </div>
                 </div>

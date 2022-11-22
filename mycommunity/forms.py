@@ -140,6 +140,11 @@ class FormCreatePost(FlaskForm):
     body = TextAreaField("Descrição", validators=[DataRequired(), Length(5, 280)])
     submit_button = SubmitField("Criar Post")
     
+    
+class ExcludePost(FlaskForm):
+    
+    submit_exclude = SubmitField("Confirmar")
+    
         
             
    

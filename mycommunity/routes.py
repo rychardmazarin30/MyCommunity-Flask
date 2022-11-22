@@ -1,7 +1,7 @@
 # Rotas do meu site
 from flask import Flask, render_template, url_for, request, flash, redirect
 from mycommunity import app, database
-from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormEditProfile, FormEditPassword, FormExcludeAccount, FormCreatePost
+from mycommunity.forms import FormCriarConta, FormEditPassword, FormLogin, FormEditProfile, FormEditPassword, FormExcludeAccount, FormCreatePost, ExcludePost
 from mycommunity.models import Usuario, Post
 from flask_login import login_user, logout_user, current_user, login_required
 import bcrypt
@@ -184,6 +184,7 @@ def create_post():
 @login_required
 def exibir_post(post_id):
     post = Post.query.get(post_id)
+    form_excluir_post = ExcludePost()
     if current_user == post.autor:
         form = FormCreatePost()
         if request.method == "GET":
@@ -196,6 +197,13 @@ def exibir_post(post_id):
             # Redirecionando para a homepage e avisando o usuário que deu certo.
             flash('Post Editado com Sucesso', 'alert-success')
             return redirect(url_for('home'))
+        elif form_excluir_post.validate_on_submit():
+            # Excluindo o post do usuário
+            database.session.delete(post)
+            database.session.commit()
+            flash('Post Excluido com Sucesso', 'alert-success')
+            return redirect(url_for('home'))
     else:
         form = None
-    return render_template('post.html', post=post, form=form)
+
+    return render_template('post.html', post=post, form=form, form_excluir_post=form_excluir_post)
