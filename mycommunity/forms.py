@@ -139,6 +139,7 @@ class FormCreatePost(FlaskForm):
     title = StringField("Titulo do Post", validators=[DataRequired(), Length(2, 140)])
     body = TextAreaField("Descrição", validators=[DataRequired(), Length(5, 280)])
     submit_button = SubmitField("Criar Post")
+    
         
             
    

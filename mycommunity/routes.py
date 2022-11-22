@@ -180,14 +180,22 @@ def create_post():
     return render_template('create_post.html', form_create_post=form_create_post)
 
 
-@app.route('/post/<post_id>')
+@app.route('/post/<post_id>', methods=['GET', 'POST'])
+@login_required
 def exibir_post(post_id):
     post = Post.query.get(post_id)
-    return render_template('post.html', post=post)
-
-
-@app.route('/post/edit', methods=["GET", "POST"])
-def edit_post():
-    form_edit = FormCreatePost()
-    
-    return render_template('edit_post.html', form_edit=form_edit)
+    if current_user == post.autor:
+        form = FormCreatePost()
+        if request.method == "GET":
+            form.title.data = post.titulo
+            form.body.data = post.corpo
+        elif form.validate_on_submit():
+            post.titulo = form.title.data
+            post.corpo = form.body.data
+            database.session.commit()
+            # Redirecionando para a homepage e avisando o usuário que deu certo.
+            flash('Post Editado com Sucesso', 'alert-success')
+            return redirect(url_for('home'))
+    else:
+        form = None
+    return render_template('post.html', post=post, form=form)
